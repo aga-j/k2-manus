@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  k2-api:
+    image: vllm/vllm:v0.5.0
+    command: >
+      --model moonshotai/Kimi-K2-Instruct
+      --tensor-parallel-size 1
+      --max-model-len 8192
+      --gpu-memory-utilization 0.9
+      --quantization ${QUANT:-None}
+    volumes:
+      - hf_cache:/root/.cache/huggingface
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  sandbox:
+    build: ./sandbox
+    volumes:
+      - ./shared:/shared          # 与 web 共享文件
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  web:
+    build: ./web
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on: [k2-api, sandbox]
+
+volumes:
+  hf_cache:
