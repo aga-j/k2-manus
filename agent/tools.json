@@ -1,0 +1,6 @@
+[
+  {"type":"function","function":{"name":"bash","description":"执行 shell 命令","parameters":{"type":"object","properties":{"cmd":{"type":"string"}},"required":["cmd"]}}},
+  {"type":"function","function":{"name":"python","description":"执行 Python 代码","parameters":{"type":"object","properties":{"code":{"type":"string"}},"required":["code"]}}},
+  {"type":"function","function":{"name":"browse","description":"无头浏览器抓取网页文本","parameters":{"type":"object","properties":{"url":{"type":"string"}},"required":["url"]}}},
+  {"type":"function","function":{"name":"upload","description":"把 /shared 里的文件返回下载 url","parameters":{"type":"object","properties":{"filename":{"type":"string"}},"required":["filename"]}}}
+]
